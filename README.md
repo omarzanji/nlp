@@ -1,2 +1,2 @@
 # nlp
-Simple Natural Language Processor implemented using LSTM for the main layer. 
+Simple Natural Language Processor implemented using a Long-Short Term Memory (LSTM) nerual network.
