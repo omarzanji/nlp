@@ -3,9 +3,8 @@
     Generate Sports articles using Tensorflow's LSTM RNN!
     Final project for Auburn University's COMP 5660.
 @author(s):
-    Omar Barazanji
-    Patrick Spafford
-    Seth Kinsaul
+    Omar Barazanji (LSTM Implementation)
+    Patrick Spafford (Scoring Implementation)
 @date: 
     10/19/2020
 @sources: 
