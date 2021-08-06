@@ -1,6 +1,6 @@
 '''
 @description: 
-    Generate Sports articles using Tensorflow's LSTM RNN!
+    Generate language using Tensorflow's LSTM RNN!
     Final project for Auburn University's COMP 5660.
 @author(s):
     Omar Barazanji (LSTM Implementation)
