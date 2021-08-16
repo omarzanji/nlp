@@ -81,7 +81,7 @@ class LSTM_RNN:
             with open('text.txt', 'w') as w:
                 w.write(big_text)
 
-        self.text = open("big_texts/midi.txt", 'rb').read().decode(encoding='utf-8').lower()
+        self.text = open("big_texts/picklerick.txt", 'rb').read().decode(encoding='utf-8').lower()
         self.characters = sorted(set(self.text))
         self.char_to_ndx = dict((c, i) for i, c in enumerate(self.characters))
         self.ndx_to_char = dict((i, c) for i, c in enumerate(self.characters))
@@ -145,16 +145,16 @@ class LSTM_RNN:
         return generated_articles[best]
 
 if __name__ == "__main__":
-    initial = True # Change to true if first time... (only for training new model)
+    initial = False # Change to true if first time... (only for training new model)
     sample_size = 3000
 
-    brain = 'models/yelp128_3.model' # select model 
+    brain = 'models/morty.model' # select model 
 
     print("Please wait while the robot types a story...\n")
 
     if initial: # initial setup
         network = LSTM_RNN(sample_size)
-        network.grab_text(cached=True)
+        network.grab_text(cached=False)
         network.train()
 
     else:       # run pre-trained neural network
@@ -162,7 +162,7 @@ if __name__ == "__main__":
         network.grab_text(cached=True)
         network.model = tf.keras.models.load_model(brain)
 
-    print(network.find_best_article(30))
+    print(network.find_best_article(1))
 
     print("\n The end.\n")
 
