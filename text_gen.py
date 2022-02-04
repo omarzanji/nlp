@@ -1,11 +1,10 @@
 '''
 @description: 
-    Generate Sports articles using Tensorflow's LSTM RNN!
+    Generate language using Tensorflow's LSTM RNN!
     Final project for Auburn University's COMP 5660.
 @author(s):
-    Omar Barazanji
-    Patrick Spafford
-    Seth Kinsaul
+    Omar Barazanji (LSTM Implementation)
+    Patrick Spafford (Scoring Implementation)
 @date: 
     10/19/2020
 @sources: 
@@ -82,7 +81,11 @@ class LSTM_RNN:
             with open('text.txt', 'w') as w:
                 w.write(big_text)
 
+<<<<<<< HEAD
         self.text = open("data/ditto.txt", 'rb').read().decode(encoding='utf-8').lower()
+=======
+        self.text = open("big_texts/picklerick.txt", 'rb').read().decode(encoding='utf-8').lower()
+>>>>>>> 6036855047dc6e15ae6f0a4e44f26093e556146c
         self.characters = sorted(set(self.text))
         self.char_to_ndx = dict((c, i) for i, c in enumerate(self.characters))
         self.ndx_to_char = dict((i, c) for i, c in enumerate(self.characters))
@@ -146,16 +149,20 @@ class LSTM_RNN:
     #     return generated_articles[best]
 
 if __name__ == "__main__":
-    initial = True # Change to true if first time... (only for training new model)
+    initial = False # Change to true if first time... (only for training new model)
     sample_size = 3000
 
+<<<<<<< HEAD
     brain = 'models/ditto.model' # select model 
+=======
+    brain = 'models/morty.model' # select model 
+>>>>>>> 6036855047dc6e15ae6f0a4e44f26093e556146c
 
     print("Please wait while the robot types a story...\n")
 
     if initial: # initial setup
         network = LSTM_RNN(sample_size)
-        network.grab_text(cached=True)
+        network.grab_text(cached=False)
         network.train()
 
     else:       # run pre-trained neural network
@@ -163,7 +170,11 @@ if __name__ == "__main__":
         network.grab_text(cached=True)
         network.model = tf.keras.models.load_model(brain)
 
+<<<<<<< HEAD
     print(network.generate_text(100, 0.6))
+=======
+    print(network.find_best_article(1))
+>>>>>>> 6036855047dc6e15ae6f0a4e44f26093e556146c
 
     print("\n The end.\n")
 
