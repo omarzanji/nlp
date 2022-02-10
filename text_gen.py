@@ -30,7 +30,7 @@ class LSTM_RNN:
     def __init__(self, article_count=0):
         self.count = article_count
         self.text = ''
-        self.length_seq = 50 
+        self.length_seq = 90
         self.model = Sequential()
 
     # from official Keras docs
@@ -43,11 +43,19 @@ class LSTM_RNN:
         return np.argmax(probas)
 
     # from official Keras docs
-    def generate_text(self, length, temperature):
+    def generate_text(self, length, temperature, sentence):
         start_index = random.randint(0, len(self.text) - self.length_seq - 1)
         generated = ''
         # sentence = self.text[start_index: start_index + self.length_seq] # random promt from sample.
-        sentence = 'set the lights to sparkle.   ' # must be 50 char (this is the prompt)
+        # sentence = 'set the lights to sparkle.   ' # must be 50 char (this is the prompt)
+        maxlen = self.length_seq
+        if len(sentence) >= maxlen:
+            sentence = sentence[0:maxlen]
+        else:
+            curr = len(sentence)
+            diff = maxlen - len(sentence)
+            sentence = sentence.ljust(curr+diff)
+
         generated += sentence
         for i in range(length):
             x_predictions = np.zeros((1, self.length_seq, len(self.characters)))
@@ -81,11 +89,7 @@ class LSTM_RNN:
             with open('text.txt', 'w') as w:
                 w.write(big_text)
 
-<<<<<<< HEAD
-        self.text = open("data/ditto.txt", 'rb').read().decode(encoding='utf-8').lower()
-=======
-        self.text = open("big_texts/picklerick.txt", 'rb').read().decode(encoding='utf-8').lower()
->>>>>>> 6036855047dc6e15ae6f0a4e44f26093e556146c
+        self.text = open("data/dialogs.txt", 'rb').read().decode(encoding='utf-8').lower()
         self.characters = sorted(set(self.text))
         self.char_to_ndx = dict((c, i) for i, c in enumerate(self.characters))
         self.ndx_to_char = dict((i, c) for i, c in enumerate(self.characters))
@@ -127,7 +131,7 @@ class LSTM_RNN:
         self.model.fit(x, y, batch_size=256, epochs=4)
 
         # run this once
-        self.model.save('ditto.model')
+        self.model.save('ditto_conversation.model')
 
     # uses the above function to find the best article generated out of N trials
     # def find_best_article(self,trials):
@@ -150,31 +154,25 @@ class LSTM_RNN:
 
 if __name__ == "__main__":
     initial = False # Change to true if first time... (only for training new model)
-    sample_size = 3000
+    # sample_size = 5000
 
-<<<<<<< HEAD
-    brain = 'models/ditto.model' # select model 
-=======
-    brain = 'models/morty.model' # select model 
->>>>>>> 6036855047dc6e15ae6f0a4e44f26093e556146c
+    brain = 'ditto_conversation.model' # select model 
 
     print("Please wait while the robot types a story...\n")
 
     if initial: # initial setup
-        network = LSTM_RNN(sample_size)
-        network.grab_text(cached=False)
+        network = LSTM_RNN()
+        network.grab_text(cached=True)
         network.train()
+        generated = network.generate_text(100, 0.3, "hey how are you doing today.")
 
     else:       # run pre-trained neural network
-        network = LSTM_RNN(sample_size)
+        network = LSTM_RNN()
         network.grab_text(cached=True)
         network.model = tf.keras.models.load_model(brain)
+        generated = network.generate_text(100, 0.9, "yug yug yug!\t")
 
-<<<<<<< HEAD
-    print(network.generate_text(100, 0.6))
-=======
-    print(network.find_best_article(1))
->>>>>>> 6036855047dc6e15ae6f0a4e44f26093e556146c
+    print(generated)
 
     print("\n The end.\n")
 
